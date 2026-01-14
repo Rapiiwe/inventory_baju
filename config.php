@@ -2,7 +2,7 @@
 $host = 'localhost';
 $username = 'root';
 $password = '';
-$dbname = 'inventori_baju';
+$dbname = 'inventory_baju';
 
 // Koneksi ke database
 $conn = new mysqli($host, $username, $password, $dbname);
