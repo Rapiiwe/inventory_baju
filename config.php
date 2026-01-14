@@ -1,11 +1,13 @@
 <?php
 $host = 'localhost';
-$user = 'root'; // Default XAMPP
-$pass = ''; // Default kosong
-$db = 'inventory_baju';
+$username = 'root';
+$password = '';
+$dbname = 'inventori_baju';
 
-$conn = new mysqli($host, $user, $pass, $db);
+// Koneksi ke database
+$conn = new mysqli($host, $username, $password, $dbname);
+
 if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

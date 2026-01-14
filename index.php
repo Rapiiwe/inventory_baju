@@ -1,39 +1,58 @@
-<?php include 'config.php'; ?>
+<?php
+include 'config.php';
+
+$sql = "SELECT * FROM produk";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Sistem Inventory Baju Sekolah</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventori Baju</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Manajemen Inventory Baju Sekolah</h1>
-    <a href="add.php">Tambah Item</a>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>Ukuran</th>
-            <th>Jumlah</th>
-            <th>Harga</th>
-            <th>Aksi</th>
-        </tr>
-        <?php
-        $result = $conn->query("SELECT * FROM items");
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>
-                <td>{$row['id']}</td>
-                <td>{$row['nama']}</td>
-                <td>{$row['ukuran']}</td>
-                <td>{$row['jumlah']}</td>
-                <td>Rp {$row['harga']}</td>
-                <td>
-                    <a href='edit.php?id={$row['id']}'>Edit</a> |
-                    <a href='delete.php?id={$row['id']}' onclick='return confirm(\"Hapus item?\")'>Hapus</a>
-                </td>
-            </tr>";
-        }
-        ?>
-    </table>
+    <div class="container">
+        <h1>Daftar Produk</h1>
+        <a href="create.php" class="btn-tambah">Tambah Produk Baru</a>
+        <div class="table-container">
+            <?php if ($result->num_rows > 0): ?>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Aksi</th>
+                    </tr>
+                    <?php while($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $row["id"]; ?></td>
+                            <td><?php echo $row["nama"]; ?></td>
+                            <td><?php echo $row["kategori"]; ?></td>
+                            <td><?php echo $row["harga"]; ?></td>
+                            <td><?php echo $row["stok"]; ?></td>
+                            <td>
+                                <!-- Tombol Edit -->
+                                <a href="edit.php?id=<?php echo $row["id"]; ?>" class="btn-edit">Edit</a> |
+                                <!-- Tombol Hapus yang akan memicu modal konfirmasi -->
+                                <button class="btn-hapus delete-btn" data-id="<?php echo $row['id']; ?>">Hapus</button>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </table>
+            <?php else: ?>
+                <p>Tidak ada produk yang tersedia.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- Elemen untuk menampilkan waktu di pojok kanan bawah -->
+    <div id="clock"></div>
 </body>
 </html>
+
+<?php $conn->close(); ?>

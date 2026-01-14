@@ -1,0 +1,4 @@
+buka localhost/phpMyAdmin di chrome
+klik new, buat database dengan nama "inventory_baju"
+klik import, pilih inventory_baju.sql di folder ini
+setelah itu bisa akses localhost/inventory_baju/
