@@ -2,7 +2,7 @@
 include 'config.php';
 
 $sql = "SELECT * FROM produk";
-$result = $conn->query($sql);
+$result = $koneksi->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -55,4 +55,4 @@ $result = $conn->query($sql);
 </body>
 </html>
 
-<?php $conn->close(); ?>
+<?php $koneksi->close(); ?>

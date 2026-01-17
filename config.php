@@ -1,13 +1,12 @@
 <?php
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$dbname = 'inventory_baju';
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "db_login";
 
-// Koneksi ke database
-$conn = new mysqli($host, $username, $password, $dbname);
+$koneksi = mysqli_connect("localhost", "root", "", "inventory_baju");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
 ?>
