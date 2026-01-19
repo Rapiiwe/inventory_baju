@@ -10,10 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Menyimpan produk baru ke database
     $sql = "INSERT INTO produk (nama, kategori, harga, stok) VALUES ('$nama', '$kategori', '$harga', '$stok')";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($koneksi->query($sql) === TRUE) {
         echo "<script>alert('Produk berhasil ditambahkan!'); window.location.href = 'index.php';</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $koneksi->error;
     }
 }
 ?>
@@ -52,4 +52,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 </html>
 
-<?php $conn->close(); ?>
+<?php $koneksi->close(); ?>
