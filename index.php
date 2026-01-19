@@ -52,6 +52,9 @@ $result = $koneksi->query($sql);
 
     <!-- Elemen untuk menampilkan waktu di pojok kanan bawah -->
     <div id="clock"></div>
+    <a href="logout.php" class="btn-logout">Logout</a>
+
+    
 </body>
 </html>
 
