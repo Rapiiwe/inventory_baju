@@ -5,28 +5,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $nama = $_POST['nama'];
     $kategori = $_POST['kategori'];
-    $harga = $_POST['harga']; // Dianggap sebagai string biasa
+    $harga = $_POST['harga'];
     $stok = $_POST['stok'];
 
-    // Update produk di database
-    $sql = "UPDATE produk SET nama='$nama', kategori='$kategori', harga='$harga', stok='$stok' WHERE id=$id";
+    // Update produk
+    $sql = "UPDATE produk 
+            SET nama='$nama', kategori='$kategori', harga='$harga', stok='$stok' 
+            WHERE id=$id";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Produk berhasil diperbarui!'); window.location.href = 'index.php';</script>";
+    if ($koneksi->query($sql) === TRUE) {
+        echo "<script>
+                alert('Produk berhasil diperbarui!');
+                window.location.href = 'index.php';
+              </script>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $koneksi->error;
     }
 }
 
+// Ambil data lama
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT * FROM produk WHERE id=$id";
-    $result = $conn->query($sql);
+    $result = $koneksi->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
     } else {
         echo "Produk tidak ditemukan.";
+        exit;
     }
 }
 ?>
@@ -37,34 +44,78 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Produk - Inventori Baju</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS custom kamu -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Produk</h1>
-        <form method="POST">
-            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 
-            <label for="nama">Nama Produk:</label>
-            <input type="text" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required placeholder="Nama Produk">
+<div class="container mt-5" style="max-width: 700px;">
 
-            <label for="kategori">Kategori:</label>
-            <input type="text" id="kategori" name="kategori" value="<?php echo $row['kategori']; ?>" required placeholder="Kategori Produk">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Edit Produk</h4>
+        </div>
 
-            <label for="harga">Harga:</label>
-            <input type="text" id="harga" name="harga" value="<?php echo $row['harga']; ?>" required placeholder="Harga Produk">
+        <div class="card-body">
+            <form method="POST">
 
-            <label for="stok">Stok:</label>
-            <input type="number" id="stok" name="stok" value="<?php echo $row['stok']; ?>" required placeholder="Jumlah Stok">
+                <input type="hidden" name="id" value="<?= $row['id']; ?>">
 
-            <input type="submit" value="Update Produk">
-        </form>
-        <a href="index.php" class="btn-back">Kembali ke Daftar Produk</a>
+                <div class="mb-3">
+                    <label class="form-label">Nama Produk</label>
+                    <input type="text" name="nama" class="form-control"
+                           value="<?= $row['nama']; ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kategori</label>
+                    <input type="text" name="kategori" class="form-control"
+                           value="<?= $row['kategori']; ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Harga</label>
+                    <input type="text" name="harga" class="form-control"
+                           value="<?= $row['harga']; ?>" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Stok</label>
+                    <input type="number" name="stok" class="form-control"
+                           value="<?= $row['stok']; ?>" required>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                <a href="dashboard.php" class="btn btn-warning">
+                        ⬅ Dashboard
+                    </a>
+
+                <div class="d-flex justify-content-between">
+                    <a href="index.php" class="btn btn-secondary">
+                        ⬅ Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Update Produk
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 
-    <!-- Elemen untuk menampilkan waktu di pojok kanan bawah -->
-    <div id="clock"></div>
+</div>
+
+<!-- JAM -->
+<div id="clock"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 
-<?php $conn->close(); ?>
+<?php $koneksi->close(); ?>
