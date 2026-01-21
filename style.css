@@ -14,7 +14,7 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f7fa;
     color: #212529;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 /* ========================= */
@@ -134,6 +134,16 @@ h1, h2, h3 {
     color: white;
     border-radius: 8px;
 }
+
+.login-success {
+    background: #e6fffa;
+    color: #065f46;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 
 /* ========================= */
 /* CLOCK */

@@ -1,103 +1,81 @@
 <?php
-include 'config.php';
+require_once 'config.php';
 
-$sql = "SELECT * FROM produk";
-$result = $koneksi->query($sql);
-?>
+$page = $_GET['page'] ?? 'login';
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventori Baju</title>
+switch ($page) {
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    /* ======================
+     | AUTH
+     ====================== */
+    case 'login':
+        require 'auth/login.php';
+        break;
 
-    <!-- CSS custom kamu -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    case 'register':
+        require 'auth/register.php';
+        break;
 
-<div class="container my-5">
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-4">
+    case 'logout':
+        require 'auth/logout.php';
+        break;
 
-    <!-- TOP BAR -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* ======================
+     | PROTECTED PAGES
+     ====================== */
+    case 'dashboard':
+        require 'auth/auth_check.php';
+        require 'pages/dashboard.php';
+        break;
 
-    <div>
-        <h4 class="fw-semibold mb-1">Daftar Produk</h4>
-        <small class="text-muted">Kelola data produk inventori</small>
-    </div>
+    case 'produk':
+        require 'auth/auth_check.php';
+        require 'pages/data_produk.php';
+        break;
 
-    <div class="d-flex gap-2">
-        <a href="dashboard.php" class="btn btn-outline-warning btn-sm">
-            Dashboard
-        </a>
-        <a href="create.php" class="btn btn-success btn-sm">
-            + Tambah
-        </a>
-        <a href="logout.php" class="btn btn-outline-danger btn-sm">
-            Logout
-        </a>
-    </div>
+    case 'produk_create':
+        require 'auth/auth_check.php';
+        require 'pages/produk_create.php';
+        break;
 
-</div>
-    <!-- TABLE -->
-    <div class="table-responsive">
-        <?php if ($result->num_rows > 0): ?>
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light text-uppercase small">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th width="160">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td>
-                                <div class="d-flex justify-content-center gap-1">
-                                    <a href="edit.php?id=<?= $row['id']; ?>" 
-                                        class="btn btn-outline-primary btn-sm">
-                                        Edit
-                                    </a>
+    case 'produk_edit':
+        require 'auth/auth_check.php';
+        require 'pages/produk_edit.php';
+        break;
 
-                                    <a href="delete.php?id=<?= $row['id']; ?>" 
-                                    class="btn btn-outline-danger btn-sm"
-                                    onclick="return confirm('Yakin ingin menghapus produk ini?')">
-                                    Hapus
-                                </a>
-                            </div>
-                        </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <div class="alert alert-warning text-center">
-                Tidak ada produk yang tersedia.
-            </div>
-        <?php endif; ?>
-    </div>
+    case 'produk_delete':
+        require 'auth/auth_check.php';
+        require 'pages/produk_delete.php';
+        break;
 
-</div>
-    </div>
-</div>
+    /* ======================
+    | BARANG MASUK
+    ====================== */
+    case 'barang_masuk':
+        require 'auth/auth_check.php';
+        require 'pages/barang_masuk.php';
+        break;
 
-<!-- JAM -->
-<div id="clock"></div>
+    case 'barang_masuk_create':
+        require 'auth/auth_check.php';
+        require 'pages/barang_masuk_create.php';
+        break;
 
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    /* ======================
+    | BARANG KELUAR
+    ====================== */
+    case 'barang_keluar':
+        require 'auth/auth_check.php';
+        require 'pages/barang_keluar.php';
+        break;
 
-</body>
-</html>
+    case 'barang_keluar_create':
+        require 'auth/auth_check.php';
+        require 'pages/barang_keluar_create.php';
+        break;
 
-<?php $koneksi->close(); ?>
+
+    default:
+        echo "<h2 style='text-align:center;margin-top:50px'>404 - Page tidak ditemukan</h2>";
+        break;
+}

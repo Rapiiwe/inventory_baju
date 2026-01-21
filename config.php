@@ -1,12 +1,40 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "inventory_baju";
+/**
+ * =======================================
+ * CONFIG & BOOTSTRAP
+ * Inventory Baju
+ * =======================================
+ */
 
-$koneksi = mysqli_connect("localhost", "root", "", "inventory_baju");
+/* ---------------------------------------
+ | BASE PATH
+ |--------------------------------------- */
+define('BASE_PATH', __DIR__);
 
-if (!$koneksi) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+/* ---------------------------------------
+ | DATABASE CONFIG
+ |--------------------------------------- */
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'inventory_baju');
+
+/* ---------------------------------------
+ | DATABASE CONNECTION (MySQLi OOP)
+ |--------------------------------------- */
+$koneksi = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+/* Connection Error Handling */
+if ($koneksi->connect_errno) {
+    die('Koneksi database gagal: ' . $koneksi->connect_error);
 }
-?>
+
+/* Charset (Best Practice) */
+$koneksi->set_charset('utf8mb4');
+
+/* ---------------------------------------
+ | SESSION
+ |--------------------------------------- */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
